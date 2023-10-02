@@ -3,6 +3,7 @@ const API_KEY = "3b25d17acf02c0482f0ad00e907b96ec" ;
 const searchInput = document.querySelector("input") ;
 const searchButton = document.querySelector("button") ;
 const weatherContainer = document.getElementById("weather");
+const locationIcon = document.getElementById("location");
 
 const getCurrentWeatherByName = async (city) => {
     const url = `${BASE_URL}/weather?q=${city}&appid=${API_KEY}&units=metric`;
@@ -39,4 +40,23 @@ const searchHandler = async () => {
     renderCurrentWeather(currentData);
 };
 
+const positionCallback = (position) => {
+    console.log(position);
+}
+
+const errorCallback = (error) => {
+    console.log(error) ;
+}
+
+const locationHandler = () => {
+    if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(positionCallback,errorCallback)
+    } else {
+        alert("Your Browser does not support geoloaction")
+    }
+}
+
+
 searchButton.addEventListener("click", searchHandler) ;
+
+locationIcon.addEventListener("click", locationHandler) ;
