@@ -3,6 +3,7 @@ const API_KEY = "3b25d17acf02c0482f0ad00e907b96ec" ;
 const searchInput = document.querySelector("input") ;
 const searchButton = document.querySelector("button") ;
 const weatherContainer = document.getElementById("weather");
+const forecastContainer = document.getElementById("forecast");
 const locationIcon = document.getElementById("location");
 
 const getCurrentWeatherByName = async (city) => {
@@ -53,6 +54,8 @@ const searchHandler = async () => {
     }
     const currentData = await getCurrentWeatherByName(cityName);
     renderCurrentWeather(currentData);
+    const forecastData = await getForecastWeatherByName(cityName);
+    console.log(forecastData)
 };
 
 const positionCallback = async (position) => {
