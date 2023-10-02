@@ -5,6 +5,15 @@ const searchButton = document.querySelector("button") ;
 const weatherContainer = document.getElementById("weather");
 const forecastContainer = document.getElementById("forecast");
 const locationIcon = document.getElementById("location");
+const DAYS = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+];
 
 const getCurrentWeatherByName = async (city) => {
     const url = `${BASE_URL}/weather?q=${city}&appid=${API_KEY}&units=metric`;
@@ -45,10 +54,24 @@ const renderCurrentWeather = (data) => {
     weatherContainer.innerHTML = weatherJSx ;
 };
 
+const getWeekDay = (date) => {
+    return DAYS[new Date(date.dt * 1000).getDay()] ;
+}
+
 const renderForecastWeather = (data) => {
     data = data.list.filter((obj) => obj.dt_txt.endsWith("12:00:00"));
-    console.log(data)
-}
+    data.forEach((i) => {
+        const forecastJsx =`
+        <div>
+          <img alt="weather icon" src="https://openweathermap.org/img/w/${i.weather[0].icon}.png"/>
+          <h3>${getWeekDay(i.dt)}</h3>
+          <p>${Math.round(i.main.temp)}°C</p>
+          <span>${i.weather[0].main}</span>
+        </div>
+        `;
+        forecastContainer.innerHTML += forecastJsx ;
+    });
+};
 
 const searchHandler = async () => {
     const cityName = searchInput.value 
