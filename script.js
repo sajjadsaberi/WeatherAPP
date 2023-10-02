@@ -29,7 +29,6 @@ const getForecastWeatherByName = async (city) => {
 
 
 const renderCurrentWeather = (data) => {
-    console.log(data);
     const weatherJSx = `
     <h1>${data.name}, ${data.sys.country}</h1>
     <div id="main">
@@ -46,6 +45,11 @@ const renderCurrentWeather = (data) => {
     weatherContainer.innerHTML = weatherJSx ;
 };
 
+const renderForecastWeather = (data) => {
+    data = data.list.filter((obj) => obj.dt_txt.endsWith("12:00:00"));
+    console.log(data)
+}
+
 const searchHandler = async () => {
     const cityName = searchInput.value 
 
@@ -55,7 +59,7 @@ const searchHandler = async () => {
     const currentData = await getCurrentWeatherByName(cityName);
     renderCurrentWeather(currentData);
     const forecastData = await getForecastWeatherByName(cityName);
-    console.log(forecastData)
+    renderForecastWeather(forecastData) ;
 };
 
 const positionCallback = async (position) => {
